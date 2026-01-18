@@ -19,12 +19,28 @@ I don't just train models; I build systems that actually solve problems. From pr
 
 ---
 
-### 🛠 CORE_ARSENAL
+Neural Stack
 
-```json
-{
-  "Languages":   ["Python 3.9", "SQL"],
-  "Frameworks":  ["TensorFlow", "Scikit-Learn", "OpenCV"],
-  "Data_Ops":    ["Pandas", "NumPy", "Matplotlib"],
-  "Deployment":  ["Streamlit", "Docker"]
-}
+<div align="left">
+  <img src="https://img.shields.io/badge/Languages-Python_3.9-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/Deep_Learning-TensorFlow_&_Keras-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" />
+  <img src="https://img.shields.io/badge/Computer_Vision-OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white" />
+  <img src="https://img.shields.io/badge/Data_Processing-Pandas_&_NumPy-150458?style=for-the-badge&logo=pandas&logoColor=white" />
+  <img src="https://img.shields.io/badge/Deployment-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" />
+</div>
+
+Quick Start Guide
+
+To run any of the projects locally, navigate to the respective directory and install the requirements.
+
+# 1. Clone the repository
+git clone [https://github.com/Parths-29/AI-Neural-Systems.git](https://github.com/Parths-29/AI-Neural-Systems.git)
+
+# 2. Navigate to the active project
+cd ipl-win-predictor
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Run the application
+streamlit run app.py
