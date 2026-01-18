@@ -1,0 +1,6 @@
+[theme]
+primaryColor="#ef252c" # IPL Red (Optional)
+backgroundColor="#add8e6" # This is the Light Blue you want
+secondaryBackgroundColor="#ffffff"
+textColor="#000000"
+font="sans serif"

@@ -1,0 +1,8 @@
+
+*.csv
+venv/
+venv_new/
+pyvenv.cfg
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
