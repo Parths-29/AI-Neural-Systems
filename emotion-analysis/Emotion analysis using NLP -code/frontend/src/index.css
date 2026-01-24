@@ -1,0 +1,87 @@
+:root {
+  --neon-green: #0f0;
+  --dark-bg: #050505;
+  --panel-bg: #111;
+  --scanline-color: rgba(0, 255, 0, 0.1);
+}
+
+body {
+  margin: 0;
+  background-color: var(--dark-bg);
+  color: var(--neon-green);
+  font-family: 'Courier New', monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* CRT Scanline Effect */
+body::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  background: var(--panel-bg);
+  border: 1px solid var(--neon-green);
+  padding: 2rem;
+  box-shadow: 0 0 20px var(--neon-green);
+  position: relative;
+  z-index: 3;
+}
+
+h1 { text-align: center; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 10px var(--neon-green); }
+
+textarea {
+  width: 90%;
+  height: 100px;
+  background: #000;
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+  font-family: inherit;
+  padding: 10px;
+  resize: none;
+  outline: none;
+  display: block;
+  margin: 0 auto;
+}
+
+button {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  background: var(--neon-green);
+  color: #000;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  transition: 0.2s;
+}
+
+button:hover { background: #fff; box-shadow: 0 0 15px #fff; }
+
+.result-box {
+  margin-top: 20px;
+  border-top: 1px dashed var(--neon-green);
+  padding-top: 20px;
+  text-align: center;
+}
+.emotion { font-size: 2rem; font-weight: bold; animation: glitch 1s infinite; }
+
+@keyframes glitch {
+  0% { text-shadow: 2px 0 red, -2px 0 blue; }
+  100% { text-shadow: -2px 0 red, 2px 0 blue; }
+}

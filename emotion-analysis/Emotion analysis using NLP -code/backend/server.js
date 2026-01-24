@@ -22,7 +22,12 @@ mongoose.connect('mongodb://127.0.0.1:27017/emotionDB', {
 })
 .then(() => console.log('✅ MongoDB Connected'))
 .catch(err => console.error('❌ MongoDB Connection Error:', err));
+// Add this simple route to check if server is alive
+app.get('/', (req, res) => {
+  res.send("<h1>✅ API is running!</h1><p>Send POST requests to /api/analyze</p>");
+});
 
+// ... your existing app.post code ...
 // --- THE MAIN ROUTE ---
 app.post('/api/analyze', async (req, res) => {
   const { text } = req.body;
