@@ -67,7 +67,22 @@ app.post('/api/analyze', async (req, res) => {
     res.status(500).json({ error: "AI Service failed. Is Python running?" });
   }
 });
+// backend/server.js
 
+// ... existing code ...
+
+// NEW: Get the last 10 analysis logs
+app.get('/api/history', async (req, res) => {
+  try {
+    const history = await Emotion.find().sort({ timestamp: -1 }).limit(10);
+    res.json(history);
+  } catch (error) {
+    res.status(500).json({ error: "Could not fetch history" });
+  }
+});
+
+// Start Server
+// app.listen...
 // Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Node Server running on http://localhost:${PORT}`);
