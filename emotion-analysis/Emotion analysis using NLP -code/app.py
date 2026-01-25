@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import pickle
@@ -10,6 +11,7 @@ from nltk.stem.porter import PorterStemmer
 
 # Initialize Flask App
 app = Flask(__name__)
+CORS(app)
 
 # --- 1. Load Artifacts ---
 print("Loading model and tokenizer...")

@@ -1,31 +1,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
 :root {
-  --neon-green: #0f0;
-  --neon-red: #ff003c;
-  --neon-blue: #00f3ff;
-  --bg-color: #050505;
-  --panel-bg: rgba(10, 20, 10, 0.85);
-  --border: 1px solid var(--neon-green);
+  /* THE RED & BLACK PALETTE */
+  --neon-primary: #ff003c;  /* Cyberpunk Red */
+  --neon-secondary: #ff3e3e; /* Lighter Red */
+  --bg-color: #000000;      /* Pure Black */
+  --panel-bg: rgba(20, 0, 0, 0.9); /* Dark Red tint */
+  --text-color: #ff003c;
+  --grid-line: rgba(255, 0, 60, 0.15);
 }
 
 body {
   margin: 0;
   background-color: var(--bg-color);
-  color: var(--neon-green);
+  color: var(--text-color);
   font-family: 'Share Tech Mono', monospace;
   overflow-x: hidden;
   height: 100vh;
 }
 
-/* CRT Overlay Effect */
-body::after {
+/* Red Grid Background */
+body::before {
   content: "";
   position: absolute;
-  top: 0; left: 0; width: 100vw; height: 100vh;
-  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
+  top: 0; left: 0; width: 100%; height: 100%;
+  background:
+    linear-gradient(transparent 95%, var(--grid-line) 50%),
+    linear-gradient(90deg, transparent 95%, var(--grid-line) 50%);
+  background-size: 30px 30px;
   pointer-events: none;
-  z-index: 10;
+  z-index: -1;
+}
+
+/* CRT Scanline Overlay */
+body::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 0, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
 }
 
 #root {
@@ -42,62 +58,42 @@ body::after {
   width: 90%;
   height: 85vh;
   max-width: 1200px;
+  position: relative;
+  z-index: 3;
 }
 
 /* PANELS */
 .panel {
   background: var(--panel-bg);
-  border: var(--border);
-  box-shadow: 0 0 10px rgba(0, 255, 0, 0.1);
+  border: 1px solid var(--neon-primary);
+  box-shadow: 0 0 15px rgba(255, 0, 60, 0.2);
   padding: 20px;
   position: relative;
-  overflow: hidden;
-}
-
-.panel::before {
-  content: "SYSTEM_READY";
-  position: absolute;
-  top: 5px; right: 5px;
-  font-size: 10px;
-  opacity: 0.5;
 }
 
 /* SIDEBAR (History) */
-.history-panel {
-  display: flex;
-  flex-direction: column;
-}
-.history-list {
-  overflow-y: auto;
-  flex-grow: 1;
-  margin-top: 10px;
-}
+.history-panel { display: flex; flex-direction: column; }
+.history-list { overflow-y: auto; flex-grow: 1; margin-top: 10px; }
+
 .history-item {
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #330000;
   padding: 10px 0;
   font-size: 0.9rem;
   transition: 0.2s;
+  cursor: default;
 }
 .history-item:hover {
-  background: rgba(0, 255, 0, 0.1);
-  padding-left: 5px;
+  background: rgba(255, 0, 60, 0.1);
+  padding-left: 10px;
 }
-.tag {
-  font-weight: bold;
-  color: var(--neon-blue);
-}
+.tag { font-weight: bold; color: #fff; text-shadow: 0 0 5px var(--neon-primary); }
 
 /* MAIN INPUT AREA */
-.main-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+.main-panel { display: flex; flex-direction: column; justify-content: center; }
 
 h1 {
-  text-shadow: 0 0 10px var(--neon-green);
-  margin-top: 0;
-  border-bottom: 2px solid var(--neon-green);
+  text-shadow: 0 0 10px var(--neon-primary);
+  border-bottom: 2px solid var(--neon-primary);
   display: inline-block;
   padding-bottom: 10px;
 }
@@ -105,72 +101,78 @@ h1 {
 textarea {
   width: 100%;
   height: 150px;
-  background: #000;
-  border: 1px solid var(--neon-green);
-  color: var(--neon-green);
+  background: #050000;
+  border: 1px solid var(--neon-primary);
+  color: var(--neon-primary);
   font-family: inherit;
   font-size: 1.2rem;
   padding: 15px;
   box-sizing: border-box;
   outline: none;
   resize: none;
+  transition: 0.3s;
 }
-textarea:focus { box-shadow: 0 0 15px var(--neon-green); }
+textarea:focus { box-shadow: 0 0 20px var(--neon-primary); }
 
-.analyze-btn {
-  background: var(--neon-green);
-  color: #000;
-  border: none;
-  padding: 15px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
+button {
+  width: 100%;
   margin-top: 20px;
+  padding: 15px;
+  background: var(--neon-primary);
+  color: #000;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
   text-transform: uppercase;
+  font-size: 1.2rem;
   letter-spacing: 2px;
+  transition: 0.2s;
 }
-.analyze-btn:hover {
-  background: #fff;
-  box-shadow: 0 0 20px #fff;
-}
+
+button:hover { background: #fff; box-shadow: 0 0 25px var(--neon-primary); }
 
 /* RESULTS SECTION */
 .result-display {
   margin-top: 30px;
-  border: 1px dashed var(--neon-green);
+  border: 1px dashed var(--neon-primary);
   padding: 20px;
   text-align: center;
-  animation: flicker 0.15s infinite;
 }
 
 .emotion-title {
   font-size: 3rem;
-  color: var(--neon-blue);
+  color: #fff;
   text-transform: uppercase;
-  text-shadow: 2px 2px var(--neon-red);
+  text-shadow: 4px 0 var(--neon-primary);
+  animation: glitch 1s infinite alternate;
 }
 
 .meter-container {
   width: 100%;
-  height: 20px;
-  background: #222;
+  height: 25px;
+  background: #200;
   margin-top: 10px;
-  border: 1px solid #555;
+  border: 1px solid #500;
 }
 .meter-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+  background: repeating-linear-gradient(
+    45deg,
+    var(--neon-primary),
+    var(--neon-primary) 10px,
+    #aa0028 10px,
+    #aa0028 20px
+  );
   width: 0%;
-  transition: width 1s ease-out;
+  transition: width 0.5s ease-out;
 }
 
-/* Custom Scrollbar */
+/* SCROLLBAR */
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #000; }
-::-webkit-scrollbar-thumb { background: var(--neon-green); }
+::-webkit-scrollbar-track { background: #100; }
+::-webkit-scrollbar-thumb { background: var(--neon-primary); }
 
-@keyframes flicker {
-  0% { opacity: 0.9; }
-  50% { opacity: 1; }
-  100% { opacity: 0.95; }
+@keyframes glitch {
+  0% { text-shadow: 4px 0 var(--neon-primary); }
+  100% { text-shadow: -4px 0 #fff; }
 }

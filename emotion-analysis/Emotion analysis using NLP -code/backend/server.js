@@ -16,12 +16,10 @@ app.use(express.json());
 const Emotion = require('./models/Emotion');
 
 // MongoDB Connection (Change URL if using MongoDB Atlas)
-mongoose.connect('mongodb://127.0.0.1:27017/emotionDB', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log('✅ MongoDB Connected'))
-.catch(err => console.error('❌ MongoDB Connection Error:', err));
+// MongoDB Connection (Updated for Mongoose 6+)
+mongoose.connect('mongodb://127.0.0.1:27017/emotionDB')
+  .then(() => console.log('✅ MongoDB Connected'))
+  .catch(err => console.error('❌ MongoDB Connection Error:', err));
 // Add this simple route to check if server is alive
 app.get('/', (req, res) => {
   res.send("<h1>✅ API is running!</h1><p>Send POST requests to /api/analyze</p>");
@@ -64,7 +62,11 @@ app.post('/api/analyze', async (req, res) => {
 
   } catch (error) {
     console.error("Error communicating with Python:", error.message);
-    res.status(500).json({ error: "AI Service failed. Is Python running?" });
+    if (error.code === 'ECONNREFUSED') {
+      console.error("❌ Connection refused! Ensure Python server is running on port 5000.");
+    }
+    // Return detailed error to the client to help debugging
+    res.status(500).json({ error: "AI Service failed. Is Python running?", details: error.message });
   }
 });
 // backend/server.js
