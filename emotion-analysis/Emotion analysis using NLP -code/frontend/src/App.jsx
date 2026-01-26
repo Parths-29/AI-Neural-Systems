@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Home, BookOpen, Activity, Sparkles, Trash2 } from 'lucide-react'
 
 function App() {
   const [input, setInput] = useState('')
@@ -9,6 +10,7 @@ function App() {
   const [welcomeMessage, setWelcomeMessage] = useState('')
   const [isLoading, setIsLoading] = useState(true)
   const [currentView, setCurrentView] = useState('main') // 'main', 'diary', 'insights'
+  const [accentColor, setAccentColor] = useState('#3b82f6') // Default blue
 
   // WELCOME QUOTES
   const quotes = [
@@ -49,12 +51,66 @@ function App() {
     try {
       const res = await axios.post('http://localhost:3000/api/analyze', { text: input });
       setResult(res.data);
-      setInput(''); 
-      fetchHistory(); 
+      setInput('');
+      fetchHistory();
+      // Set accent color based on emotion
+      setAccentColor(getEmotionColor(res.data.emotion));
     } catch (err) {
       alert("System Offline");
     }
     setLoading(false);
+  }
+
+  const getEmotionColor = (emotion) => {
+    const colors = {
+      'Anger': '#ef4444', // Soft Red
+      'Fear': '#f59e0b', // Orange
+      'Joy': '#eab308', // Yellow/Gold
+      'Love': '#ec4899', // Pink
+      'Sadness': '#3b82f6', // Ocean Blue
+      'Surprise': '#8b5cf6' // Purple
+    };
+    return colors[emotion] || '#3b82f6'; // Default blue
+  }
+
+  const getCopingInsight = (emotion) => {
+    const insights = {
+      'Anger': 'Try 4-7-8 breathing exercises: Inhale for 4 seconds, hold for 7, exhale for 8.',
+      'Fear': 'Ground yourself: Name 5 things you can see, 4 you can touch, 3 you can hear.',
+      'Joy': 'Capture this moment! What made it happen? Write it down to revisit later.',
+      'Love': 'Share the love: Reach out to someone you care about and express your feelings.',
+      'Sadness': 'Consider a warm walk or listening to acoustic music to lift your spirits.',
+      'Surprise': 'Embrace the unexpected! Reflect on how this surprise makes you feel.'
+    };
+    return insights[emotion] || 'Take a moment to breathe and reflect on your emotions.';
+  }
+
+  const clearHistory = async () => {
+    if (window.confirm('Are you sure you want to clear all history? This action cannot be undone.')) {
+      try {
+        // Assuming there's an endpoint to clear history, or we can just clear local state
+        setHistory([]);
+        // If backend has a clear endpoint, uncomment below:
+        // await axios.delete('http://localhost:3000/api/history');
+      } catch (err) {
+        console.warn("Could not clear history");
+      }
+    }
+  }
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diff = now - date;
+    const hours = diff / (1000 * 60 * 60);
+
+    if (hours < 24) {
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } else if (hours < 48) {
+      return 'Yesterday';
+    } else {
+      return date.toLocaleDateString();
+    }
   }
 
   // Show loading screen
@@ -83,19 +139,22 @@ function App() {
             className={`nav-btn ${currentView === 'main' ? 'active' : ''}`}
             onClick={() => setCurrentView('main')}
           >
-            🏠 Home
+            <Home size={18} />
+            <span>Home</span>
           </button>
           <button
             className={`nav-btn ${currentView === 'diary' ? 'active' : ''}`}
             onClick={() => setCurrentView('diary')}
           >
-            📖 Diary
+            <BookOpen size={18} />
+            <span>Diary</span>
           </button>
           <button
             className={`nav-btn ${currentView === 'insights' ? 'active' : ''}`}
             onClick={() => setCurrentView('insights')}
           >
-            📊 Insights
+            <Sparkles size={18} />
+            <span>Insights</span>
           </button>
         </div>
 
@@ -106,9 +165,17 @@ function App() {
             <div key={item._id} className="history-item">
               <span className={`tag tag-${item.detectedEmotion}`}>{item.detectedEmotion}</span>
               <p>"{item.inputText.length > 40 ? item.inputText.substring(0, 40) + "..." : item.inputText}"</p>
+              <small className="history-timestamp">{formatTimestamp(item.timestamp)}</small>
             </div>
           ))}
         </div>
+
+        {history.length > 0 && (
+          <button className="clear-history-btn" onClick={clearHistory}>
+            <Trash2 size={16} />
+            Clear History
+          </button>
+        )}
       </div>
 
       {/* MAIN AREA */}
@@ -116,7 +183,7 @@ function App() {
         {currentView === 'main' && (
           <>
             <div className="greeting-section">
-              <div className="avatar">💙</div>
+              <div className="avatar"><Home size={32} /></div>
               <h1>Hello, Friend.</h1>
               <p className="subtitle">{welcomeMessage}</p>
             </div>
@@ -148,6 +215,11 @@ function App() {
                     ></div>
                   </div>
                 </div>
+
+                <div className="coping-insight">
+                  <h3>Recommended Action</h3>
+                  <p>{getCopingInsight(result.emotion)}</p>
+                </div>
               </div>
             )}
           </>
@@ -156,7 +228,7 @@ function App() {
         {currentView === 'diary' && (
           <div className="diary-view">
             <div className="greeting-section">
-              <div className="avatar">📖</div>
+              <div className="avatar"><BookOpen size={32} /></div>
               <h1>Your Emotional Diary</h1>
               <p className="subtitle">Reflect on your journey</p>
             </div>
@@ -191,7 +263,7 @@ function App() {
         {currentView === 'insights' && (
           <div className="insights-view">
             <div className="greeting-section">
-              <div className="avatar">📊</div>
+              <div className="avatar"><Sparkles size={32} /></div>
               <h1>Your Emotional Insights</h1>
               <p className="subtitle">Understanding your patterns</p>
             </div>

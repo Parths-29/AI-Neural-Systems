@@ -1,23 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-  /* THE CALM BLUE THEME */
-  --bg-gradient-start: #eff6ff;
-  --bg-gradient-end: #dbeafe;
+  /* NEOMORPHISM & GLASSMORPHISM THEME */
+  --bg-gradient-start: #f8fafc;
+  --bg-gradient-end: #e2e8f0;
   --card-bg: #ffffff;
-  --sidebar-bg: #f8fafc;
+  --sidebar-bg: rgba(255, 255, 255, 0.8);
   --primary: #3b82f6;
   --primary-hover: #2563eb;
   --text-main: #1e293b;
   --text-muted: #64748b;
-  --shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.15);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-neo: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
+  --accent-color: #3b82f6; /* Dynamic accent color */
 }
 
 body {
   margin: 0;
   background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
   color: var(--text-main);
-  font-family: 'Quicksand', sans-serif;
+  font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -79,14 +81,41 @@ body {
 .history-item:hover { transform: translateY(-2px); }
 .history-item p { margin: 5px 0 0 0; color: #475569; font-size: 0.85rem; }
 
+.history-timestamp {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 5px;
+}
+
 .tag {
   font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--primary);
-  background: #eff6ff;
+  color: var(--accent-color);
+  background: rgba(59, 130, 246, 0.1);
   padding: 4px 10px;
   border-radius: 20px;
+}
+
+.clear-history-btn {
+  margin-top: 15px;
+  padding: 10px 15px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.clear-history-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  transform: translateY(-1px);
 }
 
 /* MAIN PANEL */
@@ -161,7 +190,7 @@ button:hover {
 }
 
 .label { margin: 0; font-size: 0.85rem; color: var(--text-muted); }
-.emotion-title { margin: 0; font-size: 1.8rem; color: var(--primary); text-transform: capitalize; }
+.emotion-title { margin: 0; font-size: 1.8rem; color: var(--accent-color); text-transform: capitalize; }
 
 .confidence-wrapper { text-align: right; }
 .confidence-wrapper span { font-size: 0.85rem; color: var(--text-muted); font-weight: 700; }
@@ -174,7 +203,29 @@ button:hover {
   margin-top: 6px;
   overflow: hidden;
 }
-.meter-fill { height: 100%; background: var(--primary); border-radius: 10px; transition: width 1s ease; }
+.meter-fill { height: 100%; background: var(--accent-color); border-radius: 10px; transition: width 1s ease; }
+
+.coping-insight {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.coping-insight h3 {
+  margin: 0 0 10px 0;
+  color: var(--accent-color);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.coping-insight p {
+  margin: 0;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
 
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -290,10 +341,14 @@ button:hover {
 }
 
 .nav-btn.active {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: var(--accent-color);
+  border-color: var(--accent-color);
   color: white;
   box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+.nav-btn span {
+  margin-left: 8px;
 }
 
 /* DIARY VIEW */
@@ -426,7 +481,7 @@ button:hover {
 
 .stat-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary), #60a5fa);
+  background: var(--accent-color);
   border-radius: 6px;
   transition: width 1s ease;
 }
@@ -450,6 +505,8 @@ button:hover {
   font-weight: 700;
   text-transform: uppercase;
   margin-bottom: 10px;
+  background: var(--accent-color);
+  color: white;
 }
 
 .current-mood p {
